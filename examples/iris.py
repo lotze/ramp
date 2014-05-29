@@ -14,7 +14,6 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 
 # fetch and clean iris data from UCI
-# data = pd.read_csv('iris.csv')
 data = pd.read_csv(urllib2.urlopen(
     "http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"))
 data = data.drop([149]) # bad line
@@ -114,14 +113,14 @@ outcomes = ramp.shortcuts.cv_factory(
         expanded_features,
 
         # Feature selection
-        # [trained.FeatureSelector(
-        #     expanded_features,
-        #     # use random forest's importance to trim
-        #     ramp.selectors.BinaryFeatureSelector(),
-        #     target=AsFactor('class'), # target to use
-        #     data=data,
-        #     n_keep=5, # keep top 5 features
-        #     )],
+        [trained.FeatureSelector(
+            expanded_features,
+            # use random forest's importance to trim
+            ramp.selectors.BinaryFeatureSelector(),
+            target=AsFactor('class'), # target to use
+            data=data,
+            n_keep=5, # keep top 5 features
+            )],
 
         # Reduce feature dimension (pointless on this dataset)
         [combo.DimensionReduction(expanded_features,
