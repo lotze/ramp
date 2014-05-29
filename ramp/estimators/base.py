@@ -69,6 +69,8 @@ class Probabilities(Estimator):
 
     def predict(self, x):
         probs = self.estimator.predict_proba(x)
+        if probs.shape[1] == 1:
+            return probs.ravel()
         if probs.shape[1] == 2 or self.binary:
             return probs[:,1]
         return probs

@@ -267,7 +267,10 @@ class DualThresholdMetricReporter(MetricReporter):
     
     def reset_thresholds():
         self.config['thresholds'] = None
-    
+
+    def __str__(self):
+        return "\n".join([str(self.summarize(result)) for result in self.results])
+
     def summarize(self, result):
         thresholds = sorted(list(set(result.y_preds)))
         ret = DataFrame(
